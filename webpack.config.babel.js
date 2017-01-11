@@ -87,7 +87,7 @@ const base = {
     return [autoprefixer, precss]
   },*/
   resolve : {
-    modules.   : [path.resolve('./app'), 'node_modules'],
+    modules    : [path.resolve('./app'), 'node_modules'],
     extensions : ['.js', '.jsx'],
     alias      : {
       '$api'        : PATHS.api,

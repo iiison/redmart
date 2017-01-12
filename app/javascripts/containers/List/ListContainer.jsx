@@ -44,12 +44,8 @@ function mapDispatchToProps(dispatch) {
  * @param  {Object}  state  - Full State.
  * @return {Object}         - State fregment that is necessary to component.
  */
-function mapStateToProps({ user }) {
-  return {
-    isFetching : user.isFetching,
-    error      : user.error,
-    userName   : user.userName
-  }
+function mapStateToProps({ allProducts }) {
+  return allProducts
 }
 
-export default connect(undefined, mapDispatchToProps)(ListContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ListContainer)

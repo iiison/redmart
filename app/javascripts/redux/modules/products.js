@@ -1,5 +1,7 @@
-import { products } from '$store'
-import { formatProducts } from '$utils/formatters'
+import { products }           from '$store'
+import { formatProducts }     from '$utils/formatters'
+import { addProductsByPrice } from './byPrice'
+import { addProductsByBrand } from './byBrand'
 
 /**
  * Add Products for first time
@@ -28,6 +30,10 @@ export function getProducts() {
     const formattedProducts = formatProducts(products)
 
     dispatch(updateProducts(formattedProducts.allProducts))
+    dispatch(addProductsByPrice(formattedProducts.byPrice))
+    dispatch(addProductsByBrand(formattedProducts.byBrand))
+
+    return {}
   }
 }
 

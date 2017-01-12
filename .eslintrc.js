@@ -69,7 +69,7 @@ const baseRules = {
   "no-implied-eval": 2,
   "no-loop-func": 2,
   "no-magic-numbers": [2, {
-    "ignore": [0, 1, -1],
+    "ignore": [0, 1, -1, 2, 3],
     "ignoreArrayIndexes": true,
     "enforceConst": false
   }],
@@ -122,7 +122,7 @@ const baseRules = {
   "indent": [2, 2],
   "func-style": [2, "declaration", { "allowArrowFunctions": true }],
   "id-blacklist": [2, "err", "e", "cb"],
-  "id-length": [2, {"min": 3, "max": 30 }],
+  "id-length": [2, {"min": 2, "max": 30 }],
   "jsx-quotes": [2, "prefer-single"],
   "key-spacing": [2, {
     "multiLine": {
@@ -155,7 +155,7 @@ const baseRules = {
   "max-nested-callbacks": [2, 4],
   "max-params": [2, 3],
   "max-statements-per-line": [2, {"max": 1}],
-  "max-statements": [2, 13],
+  "max-statements": [2, 20],
   "newline-after-var": [2, "always"],
   "newline-before-return": 2,
   "newline-per-chained-call": [2, { "ignoreChainWithDepth": 2 }],
@@ -239,7 +239,8 @@ const baseRules = {
   "react/prefer-stateless-function": 0,
   "max-len": [2, 150],
   "no-restricted-syntax": [0, "WithStatement"],
-  "new-cap" : 0
+  "new-cap" : 0,
+  "guard-for-in" : 0
 };
 
 const PROD = {

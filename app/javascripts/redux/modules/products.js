@@ -1,14 +1,28 @@
 import { products } from '$store'
 import { formatProducts } from '$utils/formatters'
 
-function updateProducts(allProducts) {
+/**
+ * Add Products for first time
+ * @param  {Object} formattedProds  Formatted Products Hash
+ * @return {Object}              Action
+ */
+function updateProducts(formattedProds) {
   return {
     type : 'UPDATE_PRODUCTS',
-    allProducts
+    formattedProds
   }
 }
 
-// Async Action Creator
+// Async Action Creators
+/**
+ * - Get Products dat from API/Local
+ * - Format the data
+ * - setup state for:
+ *   - allProducts
+ *   - byPrice
+ *   -byBrand
+ * @return {Promise}  Action
+ */
 export function getProducts() {
   return (dispatch) => {
     const formattedProducts = formatProducts(products)
@@ -17,15 +31,21 @@ export function getProducts() {
   }
 }
 
-export default function allProducts(state={}, action) {
+/**
+ * Reducer: Updates `allProducts` part of main state.
+ * @param  {Object} state   `allProducts` part of state
+ * @param  {Object} action   Action
+ * @return {Object}         Updated state.
+ */
+export default function allProducts(state = {}, action) {
   switch (action.type) {
   case 'UPDATE_PRODUCTS' :
     return {
       ...state,
-      ...action.allProducts
+      ...action.formattedProds
     }
 
   default:
     return state
   }
-}products
+}

@@ -1,5 +1,5 @@
-import React from 'react'
-// import product4 from './images/product4.jpg'
+import React    from 'react'
+import { Link } from 'react-router'
 
 const ProductUnit = ({ product }) => (
   <div className='prodUnit'>
@@ -7,7 +7,9 @@ const ProductUnit = ({ product }) => (
       <img src={`/assets/images/${product.image}`} alt={product.name} />
     </div>
     <div className='details'>
-      <p className='text'>{product.name}</p>
+      <p className='text'>
+        <Link to={`/products/${product.id}`}>{product.name}</Link>
+      </p>
       <p className='centered'>{product.measurement}</p>
       <p className='bold top-margin'>{product.price}</p>
       <div className='button camels'>{'add to card'}</div>

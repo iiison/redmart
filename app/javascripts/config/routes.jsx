@@ -24,6 +24,14 @@ const routes = () => {
             .then(loadRoute(callback))
             .catch(errorLoading)
         }
+      },
+      {
+        path : 'cart',
+        getComponent(location, callback) {
+          System.import('javascripts/containers/Cart/CartContainer')
+            .then(loadRoute(callback))
+            .catch(errorLoading)
+        }
       }
     ]
   }

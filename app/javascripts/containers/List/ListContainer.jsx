@@ -6,12 +6,21 @@ import { connect }                   from 'react-redux'
 import * as productListActionCreator from '$redux/products'
 import { updateFilter }              from '$redux/filter'
 import { updateActiveProducts }      from '$redux/activeProducts'
+import { updateCart }                from '$redux/cart'
 import * as helpers                  from '$utils/helpers'
 
 /**
  * List Page container, loads at `/` route.
  */
 class ListContainer extends Component {
+  /**
+   * Update Cart on click of add to cart button
+   * @param  {Event} event [description]
+   */
+  handleCartUpdate = (event) => {
+    this.props.updateCart(event.target.dataset.id)
+  }
+
   /**
    * Gropus Product ID according to filters
    * @param  {String} filterName   recent applied filter name
@@ -83,7 +92,13 @@ class ListContainer extends Component {
             detailedFilters={props.filter.detailed}
             onValueChnage={this.handleFilterValueChange}
           />
-          <List allProducts={props.allProducts} activeProducts={props.activeProducts} />
+          <div className='prods-cont'>
+            <List
+              allProducts={props.allProducts}
+              onAddToCart={this.handleCartUpdate}
+              activeProducts={props.activeProducts}
+            />
+          </div>
         </div>
       )
 
@@ -95,7 +110,9 @@ class ListContainer extends Component {
    * will be used to fetch and format the products.
    */
   componentDidMount() {
-    this.props.setupProducts()
+    if (Object.keys(this.props.allProducts).length === 0) {
+      this.props.setupProducts()
+    }
   }
 }
 
@@ -105,7 +122,12 @@ class ListContainer extends Component {
  * @return {object}            - action creators in object
  */
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...productListActionCreator, updateFilter, updateActiveProducts }, dispatch)
+  return bindActionCreators({
+    ...productListActionCreator,
+    updateFilter,
+    updateActiveProducts,
+    updateCart
+  }, dispatch)
 }
 
 /**

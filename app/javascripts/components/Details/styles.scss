@@ -1,0 +1,26 @@
+h1 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.prod-details {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.prod-image {
+  float: left;
+  width: 50%;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+
+  img {
+    min-width: 85%;
+  }
+}
+
+.details {
+  width: 50%;
+  float: left;
+}

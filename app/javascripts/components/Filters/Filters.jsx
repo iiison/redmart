@@ -1,4 +1,5 @@
-import React from 'react'
+import React       from 'react'
+import * as styles from './styles.scss'
 
 /**
  * Generate Check box options for filters
@@ -10,7 +11,7 @@ import React from 'react'
  */
 function generateFilterOptions(options, activeFilters, onValueChnage, filterName) {
   return options.map((option) => (
-    <div key={option}>
+    <div key={option} className={styles['filter-option']}>
       <label>
         <input
           type='checkbox'
@@ -36,7 +37,7 @@ function makeFilters(activeFilters, detailedFilters, onValueChnage) {
   const filters = Object.keys(detailedFilters)
 
   return filters.map((filter) => (
-    <div className='filter-unit' key={filter}>
+    <div className={styles['filter-unit']} key={filter}>
       <h2>{filter}</h2>
       { generateFilterOptions(detailedFilters[filter].values, activeFilters[filter] || [], onValueChnage, filter) }
     </div>
@@ -51,7 +52,7 @@ function makeFilters(activeFilters, detailedFilters, onValueChnage) {
  * @return {JSX}                               Rendered Filters Siderbar
  */
 const Filters = ({ activeFilters, detailedFilters, onValueChnage }) => (
-  <div className='filters'>
+  <div className={styles.filters}>
     <form action=''>
       { makeFilters(activeFilters, detailedFilters, onValueChnage) }
     </form>

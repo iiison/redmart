@@ -1,0 +1,44 @@
+@import "./_variables";
+
+:global{
+  .right{
+    float: right;
+  }
+  .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .head{
+    font-size: 20px;
+    font-weight: $font-bold;
+  }
+
+  .header{
+    padding: 20px 30px;
+    width: 100%;
+    border-bottom: 1px solid $dark;
+    margin-bottom: 20px;
+
+    h1{
+      font-size: 22px;
+    }
+  }
+  .loading{
+    @extend .center;
+    font-size: 25px;
+  }
+
+  .button {
+    margin: 10px auto;
+    font-size: 14px;
+    text-transform: uppercase;
+    background-color: $theme;
+    color: #fff;
+    width: 90%;
+    padding: 10px 0;
+    cursor: pointer;
+    text-align: center;
+  }
+}

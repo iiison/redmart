@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Header               from '$components/Header/Header'
+import * as stylesIgnored   from './styles.scss'
 
 /**
  * Main Class, will pass on all the data from here
@@ -12,6 +14,7 @@ class MainContainer extends Component {
   render() {
     return (
       <div>
+        <Header />
         {this.props.children}
       </div>
     )

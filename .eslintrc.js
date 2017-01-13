@@ -153,7 +153,7 @@ const baseRules = {
     "skipComments": true
   }],
   "max-nested-callbacks": [2, 4],
-  "max-params": [2, 3],
+  "max-params": [2, 4],
   "max-statements-per-line": [2, {"max": 1}],
   "max-statements": [2, 20],
   "newline-after-var": [2, "always"],

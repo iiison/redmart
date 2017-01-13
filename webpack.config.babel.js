@@ -1,7 +1,8 @@
 import path               from 'path'
 import webpack            from 'webpack'
-import HtmlWebpackPlugin  from 'html-webpack-plugin'
 import webpackLoadPlugins from 'webpack-load-plugins'
+import HtmlWebpackPlugin  from 'html-webpack-plugin'
+import CopyWebpackPlugin  from 'copy-webpack-plugin'
 import ExtractTextPlugin  from 'extract-text-webpack-plugin'
 
 const LAUNCH_COMMAND = process.env.npm_lifecycle_event
@@ -26,7 +27,7 @@ const prodPlugin = new webpack.DefinePlugin({
   }
 })
 
-const commonsVendorChunk      = new webpack.optimize.CommonsChunkPlugin({
+const commonsVendorChunk = new webpack.optimize.CommonsChunkPlugin({
   name      : 'vendor',
   minChunks : Infinity,
   filename  : 'vendor.commons.js'
@@ -40,8 +41,15 @@ const HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
 
 const extractTextPluginConfig  = new ExtractTextPlugin({
   allChunks : true,
-  filename  : "style.css"
+  filename  : 'style.css'
 })
+
+const copyWebpackPluginConfig = new CopyWebpackPlugin([
+  {
+    from : 'assets/images',
+    to : path.join(__dirname, 'build/assets/images')
+  }
+])
 // Plugins Config Ends
 
 
@@ -52,11 +60,12 @@ process.env.isProd    = isProd
 const base = {
   entry : {
     bundle : PATHS.app,
-    vendor : ['axios', 'react', 'react-dom', 'react-redux', 'react-router', 'redux', 'redux-thunk']
+    vendor : ['react', 'react-dom', 'react-redux', 'react-router', 'redux', 'redux-thunk']
   },
   output: {
-    path     : PATHS.build,
-    filename : '[name].js'
+    path       : PATHS.build,
+    filename   : '[name].js',
+    publicPath : '/'
   },
   module: {
     loaders : [
@@ -73,13 +82,13 @@ const base = {
         loader  : 'babel-loader'
       },
       {
-        test : /\.json$/,
-        loader: 'json-loader'
+        test   : /\.json$/,
+        loader : 'json-loader'
       },
       {
         test   : /\.(scss|css)$/,
         loader : ExtractTextPlugin.extract('css-loader?localIdentName=[name]__[local]___[hash : base64 : 5]&modules&importLoaders=1!postcss-loader!sass-loader?outputStyle=expanded')
-      },
+      }
     ]
   },
   // stats :
@@ -102,12 +111,12 @@ const base = {
   target : 'web'
 }
 
-const commonPlugins = [HTMLWebpackPluginConfig, commonsVendorChunk, extractTextPluginConfig]
+const commonPlugins = [HTMLWebpackPluginConfig, commonsVendorChunk, extractTextPluginConfig, copyWebpackPluginConfig]
 
 const prodConf = {
   entry : {
     bundle : PATHS.app,
-    vendor : ['axios', 'react', 'react-dom', 'react-redux', 'react-router', 'redux', 'redux-thunk']
+    vendor : ['react', 'react-dom', 'react-redux', 'react-router', 'redux', 'redux-thunk']
   },
   devtool : 'false',
   plugins : commonPlugins.concat([prodPlugin])

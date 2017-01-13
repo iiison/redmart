@@ -4,9 +4,11 @@
     ['id'] : {product}
   },
   byPrice : {
+    [range] : ['id', 'id'],
     [range] : ['id', 'id']
   },
   byBrand : {
+    [brand] : ['id', 'id'],
     [brand] : ['id', 'id']
   },
   filters : {

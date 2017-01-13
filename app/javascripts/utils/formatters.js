@@ -8,6 +8,7 @@ import * as helpers from './helpers'
 function addFilters(filters) {
   const formattedFilters = {}
   const filterNames = []
+  const detailedFilters = {}
 
   for (const filter in filters) {
     const filterName = filters[filter].name
@@ -25,9 +26,16 @@ function addFilters(filters) {
           [curr.toLowerCase()] : []
         }
       }, {})
+
+    detailedFilters[filterName] = {
+      displayName : filterName,
+      values      : Object.keys(formattedFilters[`by${helpers.toTitleCase(filterName)}`]),
+      options     : filters[filter].values
+    }
   }
 
   formattedFilters.filters = filterNames
+  formattedFilters.detailedFilters = detailedFilters
 
   return formattedFilters
 }
@@ -44,13 +52,13 @@ export function formatProducts(products) {
     allProducts : {}
   }
 
-  for (let iter = 0, length = products.products.length; iter < length; iter++) {
-    const prod = products.products[iter]
+  for (let iterator = 0, length = products.products.length; iterator < length; iterator++) {
+    const prod = products.products[iterator]
     const filters = formatedProducts.filters
 
-    prod.id = iter
+    prod.id = iterator
     prod.price *= 1
-    formatedProducts.allProducts[iter] = prod
+    formatedProducts.allProducts[iterator] = prod
 
     // Iterate Through all the Filter types and Sort the products accordingly
     for (const filter in filters) {
@@ -66,8 +74,6 @@ export function formatProducts(products) {
         }
       } else {
         prod[filterName] = prod[filterName].toLowerCase()
-
-        // formatedProducts.byBrand[prod[filterName]].push(prod.id)
         formatedProducts[`by${helpers.toTitleCase(filterName)}`][prod[filterName]].push(prod.id)
       }
     }

@@ -1,7 +1,9 @@
-import { products }           from '$store'
-import { formatProducts }     from '$utils/formatters'
-import { addProductsByPrice } from './byPrice'
-import { addProductsByBrand } from './byBrand'
+import { products }            from '$store'
+import { formatProducts }      from '$utils/formatters'
+import { addProductsByPrice }  from './byPrice'
+import { addProductsByBrand }  from './byBrand'
+import { addAllFilters }       from './filter'
+import { updateActiveProducts } from './activeProducts'
 
 /**
  * Add Products for first time
@@ -25,13 +27,15 @@ function updateProducts(formattedProds) {
  *   -byBrand
  * @return {Promise}  Action
  */
-export function getProducts() {
+export function setupProducts() {
   return (dispatch) => {
     const formattedProducts = formatProducts(products)
 
     dispatch(updateProducts(formattedProducts.allProducts))
     dispatch(addProductsByPrice(formattedProducts.byPrice))
     dispatch(addProductsByBrand(formattedProducts.byBrand))
+    dispatch(addAllFilters(formattedProducts.filters, formattedProducts.detailedFilters))
+    dispatch(updateActiveProducts(Object.keys(formattedProducts.allProducts)))
 
     return {}
   }

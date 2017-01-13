@@ -8,7 +8,7 @@ import { updateActiveProducts } from './activeProducts'
 /**
  * Add Products for first time
  * @param  {Object} formattedProds  Formatted Products Hash
- * @return {Object}              Action
+ * @return {Object}                 Action
  */
 function updateProducts(formattedProds) {
   return {

@@ -9,7 +9,7 @@ import ProductUnit from '../Product/ProductUnit'
  */
 function generateProductsList(allProducts, activeProducts) {
   return activeProducts.map((product) => (
-    <li>
+    <li key={product}>
       <ProductUnit product={allProducts[product]} />
     </li>
   ))

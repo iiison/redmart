@@ -46,11 +46,16 @@ const initialState = {
  * @return {Object}         Updated state
  */
 function updateActiveFilters(state = initialState.active, action) {
+
   switch (action.type) {
   case 'UPDATE_FILTER':
+    const index = state[action.filterName].indexOf(action.filterValue)
+
     return {
       ...state,
-      [action.filterName] : state[action.filterName].concat(action.filterValue)
+      [action.filterName] : action.flag === 'add'
+        ? state[action.filterName].concat(action.filterValue)
+        : state[action.filterName].slice(0, index).concat(state[action.filterName].slice(index + 1))
     }
 
   default:

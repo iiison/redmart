@@ -5,19 +5,56 @@ import { bindActionCreators }        from 'redux'
 import { connect }                   from 'react-redux'
 import * as productListActionCreator from '$redux/products'
 import { updateFilter }              from '$redux/filter'
+import { updateActiveProducts }      from '$redux/activeProducts'
+import * as helpers                  from '$utils/helpers'
 
 /**
  * List Page container, loads at `/` route.
  */
 class ListContainer extends Component {
+  getCategoryProducts = (filterName, filterValue, flag) => {
+    const products = {}
+    const activeFilters = this.props.filter.active
+    let isFilterApplied = false
+
+    if (flag === 'add') {
+      activeFilters[filterName].push(filterValue)
+      isFilterApplied = true
+    } else if (flag === 'remove') {
+      activeFilters[filterName].splice(activeFilters[filterName].indexOf(filterValue), 1)
+    }
+
+    for (let filter in activeFilters) {
+      products[filter] = []
+      for(let activeFilter in activeFilters[filter]) {
+        products[filter] = products[filter].concat(this.props[`by${helpers.toTitleCase(filter)}`][activeFilters[filter][activeFilter]])
+      }
+
+      isFilterApplied = (isFilterApplied || products[filter].length > 0)
+    }
+
+    return isFilterApplied === true ? products : null
+  }
   /**
    * `onClick` event listener for filter selectbox
    * @param  {Event} event  Event
    */
   handleFilterValueChange = (event) => {
     const elemRef = event.target
+    const props   = this.props
+    let productsByFilter
 
-    this.props.updateFilter(elemRef.dataset.filter, elemRef.value, 'add')
+    if (elemRef.checked === true) {
+      // const filteredProducts = helpers.getIntersaction(props[`by${helpers.toTitleCase(elemRef.dataset.filter)}`][elemRef.value], props.activeProducts)
+
+      props.updateFilter(elemRef.dataset.filter, elemRef.value, 'add')
+      productsByFilter = this.getCategoryProducts(elemRef.dataset.filter, elemRef.value, 'add')
+    } else {
+      productsByFilter = this.getCategoryProducts(elemRef.dataset.filter, elemRef.value, 'remove')
+      props.updateFilter(elemRef.dataset.filter, elemRef.value, 'remove')
+    }
+
+    props.updateActiveProducts((productsByFilter !== null) ? helpers.getIntersaction(productsByFilter.brand, productsByFilter.price) : Object.keys(this.props.allProducts))
   }
 
   /**
@@ -57,7 +94,7 @@ class ListContainer extends Component {
  * @return {object}            - action creators in object
  */
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...productListActionCreator, updateFilter }, dispatch)
+  return bindActionCreators({ ...productListActionCreator, updateFilter, updateActiveProducts }, dispatch)
 }
 
 /**
@@ -65,11 +102,13 @@ function mapDispatchToProps(dispatch) {
  * @param  {Object}  state  - Full State.
  * @return {Object}         - State fregment that is necessary to component.
  */
-function mapStateToProps({ allProducts, activeProducts, filter }) {
+function mapStateToProps({ allProducts, activeProducts, filter, byPrice, byBrand }) {
   return {
     allProducts,
     activeProducts,
-    filter
+    filter,
+    byPrice,
+    byBrand
   }
 }
 

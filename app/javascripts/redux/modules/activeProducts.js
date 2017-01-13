@@ -11,6 +11,15 @@ export function updateActiveProducts(prods) {
   }
 }
 
+export function filterProducts(filteredProds, allProducts, flag) {
+  return {
+    type : 'FILTER_PRODUCTS',
+    filteredProds,
+    allProducts,
+    flag
+  }
+}
+
 /**
  * Reducer: Updates `activeProducts` part of main state.
  * @param  {Object} state   `activeProducts` part of state

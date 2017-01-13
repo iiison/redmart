@@ -46,7 +46,6 @@ const initialState = {
  * @return {Object}         Updated state
  */
 function updateActiveFilters(state = initialState.active, action) {
-
   switch (action.type) {
   case 'UPDATE_FILTER':
     const index = state[action.filterName].indexOf(action.filterValue)

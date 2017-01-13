@@ -60,7 +60,7 @@ const baseRules = {
   "dot-location": [2, "property"],
   "dot-notation": 2,
   "eqeqeq": [2, "allow-null"],
-  "no-case-declarations": 2,
+  "no-case-declarations": 0,
   "no-empty-function": 2,
   "no-extra-bind": 2,
   "no-fallthrough": 2,

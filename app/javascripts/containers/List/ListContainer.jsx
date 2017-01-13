@@ -12,6 +12,14 @@ import * as helpers                  from '$utils/helpers'
  * List Page container, loads at `/` route.
  */
 class ListContainer extends Component {
+  /**
+   * Gropus Product ID according to filters
+   * @param  {String} filterName   recent applied filter name
+   * @param  {String} filterValue  recent applied filter value
+   * @param  {String} flag         whether filter is removed or added
+   * @return {Object}              Grouped Product ID's accrding to filters,
+   *                               value will be null if no filter selected
+   */
   getCategoryProducts = (filterName, filterValue, flag) => {
     const products = {}
     const activeFilters = this.props.filter.active
@@ -24,9 +32,9 @@ class ListContainer extends Component {
       activeFilters[filterName].splice(activeFilters[filterName].indexOf(filterValue), 1)
     }
 
-    for (let filter in activeFilters) {
+    for (const filter in activeFilters) {
       products[filter] = []
-      for(let activeFilter in activeFilters[filter]) {
+      for (const activeFilter in activeFilters[filter]) {
         products[filter] = products[filter].concat(this.props[`by${helpers.toTitleCase(filter)}`][activeFilters[filter][activeFilter]])
       }
 
@@ -35,6 +43,7 @@ class ListContainer extends Component {
 
     return isFilterApplied === true ? products : null
   }
+
   /**
    * `onClick` event listener for filter selectbox
    * @param  {Event} event  Event
@@ -45,8 +54,6 @@ class ListContainer extends Component {
     let productsByFilter
 
     if (elemRef.checked === true) {
-      // const filteredProducts = helpers.getIntersaction(props[`by${helpers.toTitleCase(elemRef.dataset.filter)}`][elemRef.value], props.activeProducts)
-
       props.updateFilter(elemRef.dataset.filter, elemRef.value, 'add')
       productsByFilter = this.getCategoryProducts(elemRef.dataset.filter, elemRef.value, 'add')
     } else {
@@ -54,7 +61,11 @@ class ListContainer extends Component {
       props.updateFilter(elemRef.dataset.filter, elemRef.value, 'remove')
     }
 
-    props.updateActiveProducts((productsByFilter !== null) ? helpers.getIntersaction(productsByFilter.brand, productsByFilter.price) : Object.keys(this.props.allProducts))
+    props.updateActiveProducts(
+      (productsByFilter !== null)
+        ? helpers.getIntersaction(productsByFilter.brand, productsByFilter.price)
+        : Object.keys(this.props.allProducts)
+    )
   }
 
   /**
